@@ -15,22 +15,22 @@ function opt_value = Euro_down_out_call (q, H, S0, X, t, r, sigma)
 
 %Initialization
 lambda = (r-q+sigma^2/2)/(sigma^2);  %constant
-%y = log((H^2/X)./S0)./(sigma*sqrt(t)) + lambda*sigma*sqrt(t);  %vector
+y = log((H^2/X)./S0)./(sigma*sqrt(t)) + lambda*sigma*sqrt(t);  %vector
 x1 = log(S0./H)./(sigma*sqrt(t)) + lambda*sigma*sqrt(t);  %vector
 y1 = log(H./S0)./(sigma*sqrt(t)) + lambda*sigma*sqrt(t);  %vector
 C = Black_Scholes (t, S0, X, r, q, sigma);  %constant
-Cp = Black_Scholes (t, H^2./S0, X, r, q, sigma);  %vector
+%Cp = Black_Scholes (t, H^2./S0, X, r, q, sigma);  %vector
 
 %Main Logic
 if (H<X || H==X)
-    %opt_value = C - (S0.*exp(-q*t)).*(H./S0).^(2*lambda).*norm(y)...
-        %+ (X*exp(-r*t)).*(H./S0).^(2*lambda-2).*norm(y-sigma*sqrt(t));
-    opt_value = C - (H./S0).^(2*r/sigma^2 - 1).*Cp;
+    opt_value = C - (S0.*exp(-q*t)).*(H./S0).^(2*lambda).*normcdf(y)...
+        + (X*exp(-r*t)).*(H./S0).^(2*lambda-2).*normcdf(y-sigma*sqrt(t));
+    %opt_value = C - (H./S0).^(2*r/sigma^2 - 1).*Cp;
 else
-    opt_value = S0.*(norm(x1)*exp(-q*t))...
-        - X*exp(-r*t)*norm(x1-sigma*sqrt(t))...
-        - S0.*exp(-q*t).*(H./S0).^(2*lambda).*norm(y1)...
-        + (X*exp(-r*t)).*(H./S0).^(2*lambda -2).*norm(y1-sigma*sqrt(t));
+    opt_value = S0.*(normcdf(x1)*exp(-q*t))...
+        - X*exp(-r*t)*normcdf(x1-sigma*sqrt(t))...
+        - S0.*exp(-q*t).*(H./S0).^(2*lambda).*normcdf(y1)...
+        + (X*exp(-r*t)).*(H./S0).^(2*lambda -2).*normcdf(y1-sigma*sqrt(t));
 end
 end
 
