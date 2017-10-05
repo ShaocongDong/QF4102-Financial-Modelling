@@ -5,4 +5,8 @@ for i = 1:41
 end
 Cdo = Euro_down_out_call (0, 6, 8, 6.5, 0.5, 0.02, 0.3);
 error = CdoN-Cdo;
-plot(N, error, 'm*-');   % mark each data point with an asterisk in red
+a1 = plot(N, error, 'm*-');   % mark each data point with an asterisk in red
+ylabel('method error');
+xlabel('Number of steps');
+title('Binomial tree method error plot for Down-out-Out with different step sizes');
+legend([a1],'error');
