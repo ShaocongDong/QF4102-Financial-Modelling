@@ -1,3 +1,6 @@
+%Group G04
+%Dong Shaocong A0148008J
+%He Xinyi A0141132B
 function opt_value = New_Euro_float_lookback_put(S0, r, T, sigma, q, N)
 % Sample BTM program for European floating strike options
 

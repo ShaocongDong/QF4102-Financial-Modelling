@@ -1,3 +1,6 @@
+%Group G04
+%Dong Shaocong A0148008J
+%He Xinyi A0141132B
 function c = Black_Scholes (t, S0, X, r, q, sigma)
 % t: time to maturity
 % S0: the current spot price of the underlying asset

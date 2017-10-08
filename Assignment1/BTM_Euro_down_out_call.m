@@ -1,3 +1,6 @@
+%Group G04
+%Dong Shaocong A0148008J
+%He Xinyi A0141132B
 function opt_value = BTM_Euro_down_out_call(S0, X, r, T, sigma, q, N, H)
 % Sample BTM program for European down and out call options
 

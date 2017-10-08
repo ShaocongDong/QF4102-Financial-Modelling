@@ -1,3 +1,6 @@
+%Group G04
+%Dong Shaocong A0148008J
+%He Xinyi A0141132B
 function opt_value = Euro_down_out_call (q, H, S0, X, t, r, sigma)
 % Exact solution for European down-and-out call option
 % This function is able to work with the intial underlier price S0 in a
