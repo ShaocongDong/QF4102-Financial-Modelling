@@ -33,7 +33,7 @@ c=(0.5*sig^2*isq+(r-q)*i)*dt/(1+r*dt);
 b=(1-sig^2*isq*dt-(r-q)*i*dt)/(1+r*dt);
 a=(0.5*sig^2*isq)*dt/(1+r*dt);
 
-% Check on monotonicity
+% Check on monotonicity 
 len01=length(a);
 len02=length(find(a<0));
 disp(['Coeff a, Of ',num2str(len01), ' elements, ', num2str(len02),' violated the positivity condition.']);
@@ -50,18 +50,19 @@ for n=N:-1:1  % backward time recursive
     VGrid(i,n)=a.*VGrid(i-1,n+1)+b.*VGrid(i,n+1)+c.*VGrid(i+1,n+1);
 end;      
 
-ExactValue=Pe(S0,X,r,T,sig,q);
+ExactValue=Ce(S0,X,r,T,sig,q);
 fd_v=VGrid(round(S0/dS)+ishift,1);
 disp(['At S0=',num2str(S0),' exact value=',num2str(ExactValue),' FD value=',num2str(fd_v)]);
 
 
 end
 
-function y=Pe(S,X,r,t,sigma,q)
+function y=Ce(S,X,r,t,sigma,q)
 
 d1=(log(S/X)+(r-q+sigma*sigma/2)*t)/sigma/sqrt(t);
 d2=d1-sigma*sqrt(t);
-y=X*exp(-r*t)*normcdf(-d2)-S*exp(-q*t)*normcdf(-d1);
+%y=X*exp(-r*t)*normcdf(-d2)-S*exp(-q*t)*normcdf(-d1);
+y = S*normcdf(d1) - normcdf(d2)*X*exp(-r*t);
 
 end
 

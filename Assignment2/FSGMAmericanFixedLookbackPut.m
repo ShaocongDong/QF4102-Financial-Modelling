@@ -42,26 +42,26 @@ function optValue = FSGMAmericanFixedLookbackPut(t, T, S0, sigma, q, runningMin,
  end
  
  %% Algorithm: looping
- for nl = (N-1):-1:0
-    for j = 0:1:nl
-        for k = (-nl):1:(nl)
+ for n = (N-1):-1:0
+    for j = 0:1:n
+        for k = (-n):1:(n)
         
             % Set ups for this round
-            S = S0 * exp((2 * j - nl) * dx);
+            S = S0 * exp((2 * j - n) * dx);
             % n = nl + elapsedPeriods;
             A = Average(k+kshift);
             
             Aup = min(S * u, A);
-            kfloor = max(floor(log(Aup / S0) / dx), -N);
-            % kfloor_index = kfloor + (n + 1) + 1;
-            Vup = V(j+1+jshift, kfloor+kshift);
+            kfloor = floor(log(Aup / S0) / dx);
+            kfloor_index = max(kfloor + (n + 1) + 1,1);
+            Vup = V(j+1+jshift, kfloor_index);
 
             Adown = min(S * d, A);
-            kfloor = max(floor(log(Adown / S0) / dx), -N);
-            % kfloor_index = kfloor + (n + 1) + 1;
-            Vdown = V(j+jshift, kfloor+kshift);            
+            kfloor = floor(log(Adown / S0) / dx);
+            kfloor_index = max(kfloor + (n + 1) + 1,1);
+            Vdown = V(j+jshift, kfloor_index);            
            
-            V(j+jshift) = max(exp(-r * dt) * (p * Vup + (1 - p) * Vdown), (K-A));
+            V(j+jshift, k+kshift) = max(exp(-r * dt) * (p * Vup + (1 - p) * Vdown), (K-A));
             
         end
     end
