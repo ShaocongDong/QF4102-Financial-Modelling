@@ -13,11 +13,9 @@ K = 0.95;
 runningMin = 0.97;
 for N = 50:50:500
     FSGMLookbackComputation (t, T, S0, sigma, q, runningMin, r, K, N);
+    break;
 end
 
 %% Second round with runningMin = 0.57;
-runningMin = 0.57;
-for N = 50:50:500
-    FSGMLookbackComputation (t, T, S0, sigma, q, runningMin, r, K, N);
-end
+
 
