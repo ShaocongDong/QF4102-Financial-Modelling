@@ -1,6 +1,6 @@
 function FSGMArithmeticComputation (t, T, S0, sigma, q, runningAvg, r, K, rho, N)
  %% Meaning of the parameters of this function
- % t: time left to maturity measured in years
+ % t: time elapsed measured in years
  % T: the total time to maturity from initiation
  % S0: the current underlier price
  % sigma: the underlier's volatility
