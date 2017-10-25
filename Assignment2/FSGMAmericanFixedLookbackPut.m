@@ -61,7 +61,7 @@ function optValue = FSGMAmericanFixedLookbackPut(t, T, S0, sigma, q, runningMin,
             kfloor_index = max(kfloor + (n + 1) + 1, 1);
             Vdown = V(j+jshift, kfloor_index);            
            
-            V(j+jshift, k+n+1) = max(exp(-r * dt) * (p * Vup + (1 - p) * Vdown), (K-A));
+            Vtemp(j+jshift, k+n+1) = max(exp(-r * dt) * (p * Vup + (1 - p) * Vdown), (K-A));
             
         end
     end
