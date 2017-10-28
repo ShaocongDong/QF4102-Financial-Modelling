@@ -36,13 +36,13 @@ a=(0.5*sig^2*isq)*dt/(1+r*dt);
 % Check on monotonicity
 len01=length(a);
 len02=length(find(a<0));
-disp(['Coeff a, Of ',num2str(len01), ' elements, ', num2str(len02),' violated the positivity condition.']);
+% disp(['Coeff a, Of ',num2str(len01), ' elements, ', num2str(len02),' violated the positivity condition.']);
 len01=length(b);
 len02=length(find(b<0));
-disp(['Coeff b, Of ',num2str(len01), ' elements, ', num2str(len02),' violated the positivity condition.']);
+% disp(['Coeff b, Of ',num2str(len01), ' elements, ', num2str(len02),' violated the positivity condition.']);
 len01=length(c);
 len02=length(find(c<0));
-disp(['Coeff c, Of ',num2str(len01), ' elements, ', num2str(len02),' violated the positivity condition.']);
+% disp(['Coeff c, Of ',num2str(len01), ' elements, ', num2str(len02),' violated the positivity condition.']);
 
 i=(1:I-1)'+ishift;
 
@@ -52,7 +52,7 @@ end
 
 ExactValue=Ce(S0,X,r,T,sig,q);
 fd_v=VGrid(round(S0/dS)+ishift,1);
-disp(['At S0=',num2str(S0),' exact value=',num2str(ExactValue),' FD value=',num2str(fd_v)]);
+% disp(['At S0=',num2str(S0),' exact value=',num2str(ExactValue),' FD value=',num2str(fd_v)]);
 
 
 end

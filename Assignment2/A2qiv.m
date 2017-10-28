@@ -4,7 +4,8 @@ function sol = A2qiv(S0, X, r, q, T, sig, dS, Nmax)
     for N = Nmax:-1:1
         sol = N;
         dt = T/N;
-        opt = A2qivfunc(S0, X, r, q, T, sig, dt, dS);
+        opt = EDSiiiEuropeanVanillaCall(S0, X, r, q, T, sig, dt, dS);
+        disp(['At N = ', num2str(N), ', option value is ', num2str(opt)]);
         %disp(num2str(opt));
         if (opt<0.8 || opt>0.9)
             disp(['At N = ', num2str(N), ', option value is ', num2str(opt) , ', it loses all significant figures.']);
