@@ -47,8 +47,8 @@ disp(['Coeff c, Of ',num2str(len01), ' elements, ', num2str(len02),' violated th
 i=(1:I-1)'+ishift;
 
 for n=N:-1:1  % backward time recursive
-    VGrid(i,n)=max(a.*VGrid(i-1,n+1)+b.*VGrid(i,n+1)+c.*VGrid(i+1,n+1), (i*dS-X).*exp(-r*i*dt) );
-end;      
+    VGrid(i,n)=max(a.*VGrid(i-1,n+1)+b.*VGrid(i,n+1)+c.*VGrid(i+1,n+1), ((i-ishift)*dS-X));
+end
 
 ExactValue=Ce(S0,X,r,T,sig,q);
 fd_v=VGrid(round(S0/dS)+ishift,1);
