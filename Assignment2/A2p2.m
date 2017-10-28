@@ -21,7 +21,7 @@ EDSiiiEuropeanVanillaCall(S0, X, r, q, T, sig, dt, dS);
 %% question iv
 disp('-----question iv----- Finding cut-off value Euro');
 Nmax = 2915;
-A2qiv(S0, X, r, q, T, sig, dS, Nmax);
+%A2qiv(S0, X, r, q, T, sig, dS, Nmax);
 %% question v
 disp('-----question v----- N = 2915 American');
 EDSiiiAmericanVanillaCall(S0, X, r, q, T, sig, dt, dS);
