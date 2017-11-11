@@ -21,10 +21,19 @@ e3 = p13 * r1 + p23-p13*p12/(sqrt(1-p12^2)) * r2 +...
     sqrt((1+2*p23*p12*p13-p12^2-p13^2-p23^2)/(1-p12^2)) * r3;
 
 ST1=S0(1)*exp(mu1*T+e1*sigma(1)*sqrt(T));  % terminal prices in a vector
-ST2=S0(2)*exp(mu2*T+e2*sigma(2)*sqrt(T));  
-ST3=S0(3)*exp(mu3*T+e3*sigma(3)*sqrt(T));  
-MC_noCV=0;
-if (max(ST1, ST2, ST3) > X)
-    MC_noCV = 1;
+ST2=S0(2)*exp(mu2*T+e2*sigma(2)*sqrt(T));
+ST3=S0(3)*exp(mu3*T+e3*sigma(3)*sqrt(T));
+
+MC_noCV = zeros(2,1);
+V = zeros(no_samples,1);
+for i = 1:no_samples
+    if max(ST1(i), ST2(i), ST3(i)) > X
+        V(i) = 1;
+    end
 end
+MC_noCV(1) = mean(V) * exp(-T*r);
+MC_noCV(2) = std(V);
+
+disp(['Value ', MC_noCV(1)]);
+disp(['Standard Errors ', MC_noCV(2)]);
 end

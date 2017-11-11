@@ -25,9 +25,44 @@ ST2=S0(2)*exp(mu2*T+e2*sigma(2)*sqrt(T));
 ST3=S0(3)*exp(mu3*T+e3*sigma(3)*sqrt(T));  
 
 % estimate beta parameter
+FA = zeros(no_samples,1);
+FB = zeros(no_samples,1);
 
-MC=0;
-if (max(ST1, ST2, ST3) > X)
-    MC = 1;
+for i = 1:no_samples
+    if max(ST1(i), ST2(i), ST3(i)) > X 
+        FA(i) = 1;
+    end
+    
+    if ST1(i) > X 
+        FB(i) = FB(i) + 1;
+    end
+    if ST2(i) > X 
+        FB(i) = FB(i) + 1;
+    end
+    if ST3(i) > X
+        FB(i) = FB(i) + 1;
+    end   
 end
+
+% dicount first
+FA = exp(-r*T) * FA;
+FB = exp(-r*T) * FB;
+
+% estimate beta
+FA_bar = mean(FA);
+FB_bar = mean(FB);
+
+beta = (FA - FA_bar).*(Fb - FB_bar) / (Fb - FB_bar).*(Fb - FB_bar);
+
+% find MC Value
+d1 = (log(S/X)+(r-q+sigma*sigma/2)*t)/sigma/sqrt(t);
+d2 = d1-sigma*sqrt(t);
+FB_BS = exp(-r*T) * normcdf(d2);
+V = FA - beta * (FB - FB_BS);
+
+MC(1) = mean(V);
+MC(2) = std(V);
+
+disp(['Value ', MC(1)]);
+disp(['Standard Errors ', MC(2)]);
 end
