@@ -19,44 +19,37 @@ VGrid(:,N+1)=max((exp(-xmax:dx:xmax)-X), 0); % for every possible x
 
 %% Looping and parameters setup
 alpha = sigma^2*dt/(dx^2);
-a = (-alpha/2) * ones(2*I-1,1);
-b = (1 + alpha + (r-q-sigma^2/2)*dt/dx + r*dt) * ones(2*I-1,1);
-c = (-alpha/2 - (r-q-sigma^2/2)*dt/dx) * ones(2*I-1,1);
-CoeffMatrix=spdiags ([c, b, a],-1:1, 2*I-1, 2*I-1)';
+a = (-alpha/2) * ones(2*I+1,1);
+b = (1 + alpha + (r-q-sigma^2/2)*dt/dx + r*dt) * ones(2*I+1,1);
+c = (-alpha/2 - (r-q-sigma^2/2)*dt/dx) * ones(2*I+1,1);
+%CoeffMatrix=spdiags ([c, b, a],-1:1, 2*I-1, 2*I-1)';
 priceVector = exp(-xmax:dx:xmax)';
 
 %% Loop
 ishift=1;
 for n=N:-1:1  % backward time recursive
     
-    RhsB = VGrid(1+ishift:2*I-1+ishift, n+1);
-    RhsB(1)  =RhsB(1) -a(1)*VGrid(0+ishift,n);
-    RhsB(2*I-1)=RhsB(2*I-1)-c(2*I-1)*VGrid(2*I+ishift,n);
-    VGrid(1+ishift:2*I-1+ishift,n)=...
-        sor(CoeffMatrix, CoeffMatrix\RhsB, RhsB, 2*I-1, omega, eps);
-    payoffVector = (priceVector(1+ishift:2*I-1+ishift)-X) * exp(-r*dt*n);
-    VGrid(1+ishift:2*I-1+ishift,n) =...
-        max(VGrid(1+ishift:2*I-1+ishift,n), payoffVector);
+    %RhsB = VGrid(1+ishift:2*I-1+ishift, n+1);
+    %RhsB(1)  =RhsB(1) -a(1)*VGrid(0+ishift,n);
+    %RhsB(2*I-1)=RhsB(2*I-1)-c(2*I-1)*VGrid(2*I+ishift,n);
+    payoffVector = (priceVector(:)-X) * exp(-r*dt*n);
+    VGrid(:,n)=...
+        psor(I, a, b, c, 0, 1, 0, VGrid(:, n+1),...
+        eps, omega, payoffVector);
+        %sor(CoeffMatrix, CoeffMatrix\RhsB, RhsB, 2*I-1, omega, eps);
+    
+    %VGrid(1+ishift:2*I-1+ishift,n) = max(VGrid(1+ishift:2*I-1+ishift,n), payoffVector);
     
 end;
 
 %% Linear Interpolation and Value comparisons
-ExactValue=Ce(S0,X,r,T,sigma,q);
 lower_index = floor(round(log(S0)/dx,1)) + I;
 higher_index = lower_index+1;
 Low_Val=VGrid(lower_index+ishift,1);
 High_Val=VGrid(higher_index+ishift,1);
 OptVal = LinearInterpolate(S0, exp(lower_index*dx-xmax),...
     exp(higher_index*dx-xmax), Low_Val, High_Val);
-disp(['At S0=',num2str(S0),' exact value=',...
-    num2str(ExactValue),' FD value=',num2str(OptVal)]);
-end
-
-function y=Ce(S,X,r,t,sigma,q)
-%% European vanilla call exact value solution
-d1=(log(S/X)+(r-q+sigma*sigma/2)*t)/sigma/sqrt(t);
-d2=d1-sigma*sqrt(t);
-y=-X*exp(-r*t)*normcdf(d2)+S*exp(-q*t)*normcdf(d1);
+disp(['At S0=',num2str(S0), ' FD value=',num2str(OptVal)]);
 end
 
 function sol = LinearInterpolate(x, x0, x1, f0, f1)
@@ -64,36 +57,23 @@ function sol = LinearInterpolate(x, x0, x1, f0, f1)
 sol = (x - x1) / (x0 - x1) * f0 + (x - x0) / (x1 - x0) * f1;
 end
 
-function x = sor(A, x0, b, n, epsilon, omega)
-%% Function for sor iterative algorithm
+function Vn = psor(I, a, b, c, alp, bet, gam, Vnplus, eps, omega, fai)
+%% Function for psor iterative algorithm
 converged = false;
-disp('In side sor');
-xK = x0;
-while(converged == false)
-    xKplus = zeros(n,1);
-    
-    for i = 1:1:n
-        
-        % Calculate summation product a*x
-        sum1 = 0;
-        sum2 = 0;
-        for j = 1:1:i-1
-            sum1 = sum1 + A(i, j) * xKplus(j);
-        end
-        for j = i+1:1:n
-            sum2 = sum2 + A(i, j) * xK(j);
-        end
-        % Update to the next round
-        xgsKplus = 1/A(i,i) * (-sum1 - sum2 + b(i));
-        xKplus(i) = (1-omega)*xK(i) + omega*xgsKplus;
+Vk = Vnplus;
+Vkplus = Vk;
+while (converged == false)
+    Vgs = zeros(2*I+1,1);
+    for i=2:1:2*I % compute iterate k+1
+        Vgs(i) = 1/b(i) * (-a(i)*Vkplus(i-1) - c(i)*Vk(i+1)...
+            + alp*Vnplus(i-1) + bet*Vnplus(i) + gam*Vnplus(i+1));
+        Vkplus(i) = max(((1-omega)*Vk(i) + omega*Vgs(i)), fai(i));
     end
-    
-    % Test for convergence
-    if (sqrt((xKplus - xK).*(xKplus - xK)) < epsilon)
+    if (sqrt(((Vkplus-Vk).*(Vkplus-Vk))) < eps)
         converged = true;
     end
-    xK = xKplus;
+    Vk = Vkplus;
 end
-x = xK;
+Vn = Vk;
 end
 

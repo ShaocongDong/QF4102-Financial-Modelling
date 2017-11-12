@@ -1,6 +1,6 @@
 % Sample Monte-Carlo simulation program for European vanilla call options
 %
-% call syntax: Euro_vanilla_call=MC_EurCall(S0,X,r,T,sigma,q,no_samples)
+% call syntax: MC_noCV=MC_3AssetMD(S0, X, sigma, C, r, q, T, no_samples)
 %
 function MC_noCV=MC_3AssetMD(S0, X, sigma, C, r, q, T, no_samples)
 
@@ -24,16 +24,16 @@ ST1=S0(1)*exp(mu1*T+e1*sigma(1)*sqrt(T));  % terminal prices in a vector
 ST2=S0(2)*exp(mu2*T+e2*sigma(2)*sqrt(T));
 ST3=S0(3)*exp(mu3*T+e3*sigma(3)*sqrt(T));
 
-MC_noCV = zeros(2,1);
+%MC_noCV = zeros(2,1);
 V = zeros(no_samples,1);
 for i = 1:no_samples
-    if max(ST1(i), ST2(i), ST3(i)) > X
+    if max(max(ST1(i), ST2(i)), ST3(i)) > X
         V(i) = 1;
     end
 end
-MC_noCV(1) = mean(V) * exp(-T*r);
-MC_noCV(2) = std(V);
+MC_noCV = mean(V) * exp(-T*r);
+%MC_noCV(2) = std(V);
 
-disp(['Value ', MC_noCV(1)]);
-disp(['Standard Errors ', MC_noCV(2)]);
+% disp(['Value ', MC_noCV(1)]);
+% disp(['Standard Errors ', MC_noCV(2)]);
 end
