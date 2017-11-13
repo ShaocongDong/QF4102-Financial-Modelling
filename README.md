@@ -8,7 +8,7 @@
 
 #### Table of Content
 * Assignment 1 - BTM for barrier, lookback option
-* Assignment 2 - Finite difference scheme, EXplcit scheme
+* Assignment 2 - Forward Shooting Grid Method, Explicit scheme
 * Assignment 3 - Implicit scheme, Monte Carlo with/without control variate
 * lecture code
 
