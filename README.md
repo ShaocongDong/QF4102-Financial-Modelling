@@ -5,11 +5,10 @@
 * Author: Dong Shaocong & He Xinyi (Alphabetical order)
 * Year: year 3
 * Major: Quantitative Finance
-* Copyright content
 
 #### Table of Content
-* Assignment 1
-* Assignment 2 (TBA)
-* Assignment 3 (TBA)
+* Assignment 1 - BTM for barrier, lookback option
+* Assignment 2 - Finite difference scheme, EXplcit scheme
+* Assignment 3 - Implicit scheme, Monte Carlo with/without control variate
 * lecture code
 
