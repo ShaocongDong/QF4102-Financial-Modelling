@@ -29,7 +29,7 @@ FA = zeros(no_samples,1);
 FB = zeros(no_samples,1);
 
 for i = 1:no_samples
-    if max(ST1(i), ST2(i), ST3(i)) > X 
+    if max(ST1(i), max(ST2(i), ST3(i))) > X 
         FA(i) = 1;
     end
     
@@ -52,17 +52,17 @@ FB = exp(-r*T) * FB;
 FA_bar = mean(FA);
 FB_bar = mean(FB);
 
-beta = (FA - FA_bar).*(Fb - FB_bar) / (Fb - FB_bar).*(Fb - FB_bar);
+beta = dot((FA - FA_bar),(FB - FB_bar)) / dot((FB - FB_bar),(FB - FB_bar));
 
 % find MC Value
-d1 = (log(S/X)+(r-q+sigma*sigma/2)*t)/sigma/sqrt(t);
-d2 = d1-sigma*sqrt(t);
+d1 = (log(S0/X)+(r-q+dot(sigma,sigma)/2)*T)./sigma/sqrt(T);
+d2 = d1-sigma*sqrt(T);
 FB_BS = exp(-r*T) * normcdf(d2);
 V = FA - beta * (FB - FB_BS);
 
-MC(1) = mean(V);
-MC(2) = std(V);
+MC = mean(V);
+%MC(2) = std(V);
 
-disp(['Value ', MC(1)]);
-disp(['Standard Errors ', MC(2)]);
+%disp(['Value ', MC(1)]);
+%disp(['Standard Errors ', MC(2)]);
 end

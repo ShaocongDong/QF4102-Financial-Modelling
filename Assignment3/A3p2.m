@@ -12,7 +12,7 @@ r = 0.05;
 T = 0.75;
 estimates = zeros(30,1);
 
-%% First round with price-path bundles 100
+%% Itarate through all X, number of samples each with 30 rounds
 for X = [8.5, 9.5, 10.5]
     for no_samples = [100, 1000, 10000, 100000]
         for i=1:1:30
@@ -22,9 +22,19 @@ for X = [8.5, 9.5, 10.5]
     end
 end
 
+%% ----------------------------------------------------------------------
+%% Digital call option without control variate:
+% call MC_3AssetMD_CV(S0, X, sigma, C, r, q, T, no_samples)
 
-
-%% Getting the estimates
+%% Itarate through all X, number of samples each with 30 rounds
+for X = [8.5, 9.5, 10.5]
+    for no_samples = [100, 1000, 10000, 100000]
+        for i=1:1:30
+            estimates(i) = MC_3AssetMD_CV(S0, X, sigma, C, r, q, T, no_samples);
+        end
+        disp(['no=',num2str(no_samples) ,' X=', num2str(X), ' Estimate', num2str(mean(estimates)), ' Standard error', num2str(var(estimates)^(0.5))]);
+    end
+end
 
 
 
