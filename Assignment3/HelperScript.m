@@ -13,15 +13,12 @@ xmax = 5;
 N = 1500;
 T = 1;
 estimates = 100:100:1500;
-%% PSOR parameters setup:
-omega = 1.3;
-eps = 10^(-6);
 
 %% Getting the estimates
 for I = 100:100:1500
     index = round(I/100,0);
     estimates(index) =...
-        FD_ids_Acall_trans(S0, X, r, q, T, sigma, I, N, xmax, omega, eps);
+        FD_ids_call_trans(S0, X, r, q, T, sigma, I, N, xmax);
 end
 
 %% Plot of estimates against I values
@@ -29,4 +26,4 @@ plot(100:100:1500, estimates, 'm-*');
 legend('estimation of option value');
 xlabel('value of parameter I');
 ylabel('estimated value');
-title('American Vanilla Call-Implicit Scheme with PSOR Algorithm');
+title('European Vanilla Call-Implicit Scheme');

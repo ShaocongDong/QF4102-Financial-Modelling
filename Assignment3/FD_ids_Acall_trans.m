@@ -19,9 +19,10 @@ VGrid(:,N+1)=max((exp(-xmax:dx:xmax)-X), 0); % for every possible x
 
 %% Looping and parameters setup
 alpha = sigma^2*dt/(dx^2);
-a = (-alpha/2) * ones(2*I+1,1);
-b = (1 + alpha + (r-q-sigma^2/2)*dt/dx + r*dt) * ones(2*I+1,1);
-c = (-alpha/2 - (r-q-sigma^2/2)*dt/dx) * ones(2*I+1,1);
+beta = dt*(r-q-sigma^2/2)/(2*dx);
+a = (beta - alpha/2) * ones(2*I+1,1);
+b = (1 + alpha + r*dt) * ones(2*I+1,1);
+c = (-alpha/2 - beta) * ones(2*I+1,1);
 %CoeffMatrix=spdiags ([c, b, a],-1:1, 2*I-1, 2*I-1)';
 priceVector = exp(-xmax:dx:xmax)';
 
