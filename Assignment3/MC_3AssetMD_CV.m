@@ -55,9 +55,10 @@ FB_bar = mean(FB);
 beta = dot((FA - FA_bar),(FB - FB_bar)) / dot((FB - FB_bar),(FB - FB_bar));
 
 % find MC Value
-d1 = (log(S0/X)+(r-q+dot(sigma,sigma)/2)*T)./sigma/sqrt(T);
-d2 = d1-sigma*sqrt(T);
-FB_BS = exp(-r*T) * normcdf(d2);
+d1 = (log(S0(1)/X)+(r-q(1)-sigma(1)^2/2)*T)./sigma(1)/sqrt(T);
+d2 = (log(S0(2)/X)+(r-q(2)-sigma(2)^2/2)*T)./sigma(2)/sqrt(T);
+d3 = (log(S0(3)/X)+(r-q(3)-sigma(3)^2/2)*T)./sigma(3)/sqrt(T);
+FB_BS = exp(-r*T) * (normcdf(d1) + normcdf(d2) + normcdf(d3)); 
 V = FA - beta * (FB - FB_BS);
 
 MC = mean(V);
