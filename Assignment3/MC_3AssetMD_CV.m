@@ -17,7 +17,7 @@ p13 = C(1,3);
 p23 = C(2,3);
 e1 = r1;
 e2 = p12 * r1 +sqrt(1-p12^2) * r2;
-e3 = p13 * r1 + (p23-p13*p12/(sqrt(1-p12^2))) * r2 +...
+e3 = p13 * r1 + (p23-p13*p12)/(sqrt(1-p12^2)) * r2 +...
     sqrt((1+2*p23*p12*p13-p12^2-p13^2-p23^2)/(1-p12^2)) * r3;
 
 ST1=S0(1)*exp(mu1*T+e1*sigma(1)*sqrt(T));  % terminal prices in a vector
