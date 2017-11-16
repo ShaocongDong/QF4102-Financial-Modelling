@@ -1,22 +1,38 @@
-%% parameter setup:
-S0 = [9.5;10.2;8.8];
-sigma = [0.35;0.21;0.18];
-q = [0.01;0.04;0];
-C = [1,0.88,0.17;0.88,1,0.34;0.17,0.34,1];
-r = 0.05;
-T = 0.75;
-estimates = zeros(30,1);
-
+%% File A3p1: Assignment 3 problem 1 script
 %% ----------------------------------------------------------------------
-%% Digital call option without control variate:
-% call MC_3AssetMD_CV(S0, X, sigma, C, r, q, T, no_samples)
+%% European Vanilla Call:
+% call FD_ids_call_trans(S0, X, r, q, T, sigma, I, N, xmax)
 
-%% Itarate through all X, number of samples each with 30 rounds
-for X = [8.5, 9.5, 10.5]
-    for no_samples = [100, 1000, 10000, 100000]
-        for i=1:1:30
-            estimates(i) = MC_3AssetMD_CV(S0, X, sigma, C, r, q, T, no_samples);
-        end
-        disp(['no=',num2str(no_samples) ,' X=', num2str(X), ' Estimate', num2str(mean(estimates)), ' Standard error', num2str(var(estimates)^(0.5))]);
-    end
+%% parameter setup:
+S0 = 5.25;
+X = 5;
+sigma = 0.3;
+q = 0.1;
+r = 0.03;
+xmax = 5;
+N = 1500;
+T = 1;
+estimates = 100:100:1500;
+
+%% -----------------------------------------------------------------------
+
+%% American vanilla call with PSOR algorithm
+% call FD_ids_Acall_trans(S0, X, r, q, T, sigma, I, N, xmax, omega, eps)
+
+%% PSOR parameters setup:
+omega = 1.3;
+eps = 10^(-6);
+index = 0;
+%% Getting the estimates
+for I = 100:100:1500
+    index = index + 1;
+    estimates(index) =...
+        FD_ids_Acall_trans(S0, X, r, q, T, sigma, I, N, xmax, omega, eps);
 end
+
+%% Plot of estimates against I values
+plot(100:100:1500, estimates, 'm-*');
+legend('estimation of option value');
+xlabel('value of parameter I');
+ylabel('estimated value');
+title('American Vanilla Call-Implicit Scheme with PSOR Algorithm');
