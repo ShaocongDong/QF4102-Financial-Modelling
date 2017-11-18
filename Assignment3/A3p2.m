@@ -19,7 +19,7 @@ for X = [8.5, 9.5, 10.5]
         for i=1:1:30
             estimates(i) = MC_3AssetMD(S0, X, sigma, C, r, q, T, no_samples);
         end
-        disp(['no=',num2str(no_samples) ,' X=', num2str(X), ' Estimate', num2str(mean(estimates)), ' Standard error', num2str(var(estimates)^(0.5))]);
+        disp(['no = ',num2str(no_samples) ,'; X = ', num2str(X), '; Estimate: ', num2str(mean(estimates)), ' Standard error: ', num2str(var(estimates)^(0.5))]);
         sd1(index) = var(estimates)^(0.5);
         index = index + 1;
     end
@@ -38,7 +38,7 @@ for X = [8.5, 9.5, 10.5]
         for i=1:1:30
             estimates(i) = MC_3AssetMD_CV(S0, X, sigma, C, r, q, T, no_samples);
         end
-        disp(['no=',num2str(no_samples) ,' X=', num2str(X), ' Estimate', num2str(mean(estimates)), ' Standard error', num2str(var(estimates)^(0.5))]);
+        disp(['no = ',num2str(no_samples) ,'; X = ', num2str(X), '; Estimate: ', num2str(mean(estimates)), ' Standard error: ', num2str(var(estimates)^(0.5))]);
         sd2(index) = var(estimates)^(0.5);
         index = index + 1;
     end

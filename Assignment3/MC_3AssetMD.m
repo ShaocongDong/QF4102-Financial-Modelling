@@ -1,5 +1,5 @@
 % Sample Monte-Carlo simulation program for European vanilla call options
-%
+% This version we don't have control variate.
 % call syntax: MC_noCV=MC_3AssetMD(S0, X, sigma, C, r, q, T, no_samples)
 %
 function MC_noCV=MC_3AssetMD(S0, X, sigma, C, r, q, T, no_samples)

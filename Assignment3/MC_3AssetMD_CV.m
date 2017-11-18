@@ -1,6 +1,6 @@
 % Sample Monte-Carlo simulation program for European vanilla call options
 % This version we have control variate.
-% call syntax: Euro_vanilla_call=MC_EurCall(S0,X,r,T,sigma,q,no_samples)
+% call syntax: Euro_vanilla_call=MC_3AssetMD_CV(S0, X, sigma, C, r, q, T, no_samples)
 %
 function MC=MC_3AssetMD_CV(S0, X, sigma, C, r, q, T, no_samples)
 
