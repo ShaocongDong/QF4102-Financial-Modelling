@@ -2,7 +2,7 @@
 %% ----------------------------------------------------------------------
 %% Digital call option without control variate:
 % call: MC_noCV=MC_3AssetMD(S0, X, sigma, C, r, q, T, no_samples)
-
+disp('---Without control variate---');
 %% parameter setup:
 S0 = [9.5;10.2;8.8];
 sigma = [0.35;0.21;0.18];
@@ -28,7 +28,7 @@ end
 %% ----------------------------------------------------------------------
 %% Digital call option without control variate:
 % call MC_3AssetMD_CV(S0, X, sigma, C, r, q, T, no_samples)
-
+disp('---With control variate---');
 sd2 = zeros(12,1);
 index = 1;
 

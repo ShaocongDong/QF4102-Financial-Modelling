@@ -1,8 +1,7 @@
 %% Finite Difference - fully implicit scheme for:
-%  transformed European vanilla call options
+%  transformed American vanilla call options
 %   calling syntax:
-%   v=FD_ids_call_trans(S0, X, r, q, T, sigma, I, N, xmax)
-%function fd_v=FD_ids_put(S0, X, r, T, sig, N, dS)
+%   v=FD_ids_Acall_trans(S0, X, r, q, T, sigma, I, N, xmax, omega, eps)
 
 function OptVal=FD_ids_Acall_trans(S0, X, r, q, T, sigma, I, N, xmax, omega, eps)
 %% Initialization

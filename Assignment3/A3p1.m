@@ -29,7 +29,7 @@ ylabel('estimated value');
 title('European Vanilla Call-Implicit Scheme');
 
 %% -----------------------------------------------------------------------
-
+figure;
 %% American vanilla call with PSOR algorithm
 % call FD_ids_Acall_trans(S0, X, r, q, T, sigma, I, N, xmax, omega, eps)
 
