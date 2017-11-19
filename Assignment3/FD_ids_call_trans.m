@@ -23,8 +23,9 @@ beta = dt*(r-q-sigma^2/2)/(2*dx);
 a = (beta - alpha/2) * ones(2*I-1,1);
 b = (1 + alpha + r*dt) * ones(2*I-1,1);
 c = (-alpha/2 - beta) * ones(2*I-1,1);
-CoeffMatrix=spdiags ([c, b, a],-1:1, 2*I-1, 2*I-1)';
 
+CoeffMatrix=spdiags ([c, b, a],-1:1, 2*I-1, 2*I-1)';
+disp(CoeffMatrix);
 %% Loop
 ishift=1;
 for n=N:-1:1  % backward time recursive
